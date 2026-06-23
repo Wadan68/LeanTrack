@@ -141,10 +141,12 @@ async function loadLatestWeight() {
   if (!data || !data.length)
     return;
 
-  document
-    .getElementById('currentWeight')
-    .innerText =
-      data[0].weight + 'kg';
+document
+  .getElementById('currentWeight')
+  .innerText =
+    data[0].weight + 'kg';
+
+updateGoalProgress();
 }
 
 async function addWaist() {
@@ -270,6 +272,21 @@ async function loadProfile() {
       .single();
 
   profile = data;
+
+  document
+  .getElementById('heightInput')
+  .value =
+    profile.height_cm || '';
+
+document
+  .getElementById('birthYearInput')
+  .value =
+    profile.birth_year || '';
+
+document
+  .getElementById('targetWeightInput')
+  .value =
+    profile.target_weight || '';
 }
 
 function calculateWHtR(waist) {
@@ -341,4 +358,74 @@ responsive: true,
 maintainAspectRatio: false
 }
 });
+}
+
+function toggleSettings() {
+
+  document
+    .getElementById('settingsPanel')
+    .classList.toggle('hidden');
+}
+
+async function saveProfile() {
+
+  const {
+    data: { user }
+  } =
+  await supabaseClient.auth.getUser();
+
+  const height =
+    parseFloat(
+      document.getElementById('heightInput').value
+    );
+
+  const birthYear =
+    parseInt(
+      document.getElementById('birthYearInput').value
+    );
+
+  const targetWeight =
+    parseFloat(
+      document.getElementById('targetWeightInput').value
+    );
+
+  const { error } =
+    await supabaseClient
+      .from('profiles')
+      .update({
+        height_cm: height,
+        birth_year: birthYear,
+        target_weight: targetWeight
+      })
+      .eq('id', user.id);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert('资料已保存');
+
+  await loadProfile();
+}
+
+function updateGoalProgress() {
+
+  if (!profile) return;
+
+  const current =
+    parseFloat(
+      document.getElementById('currentWeight')
+      .innerText
+    );
+
+  if (!current) return;
+
+  const remain =
+    current - profile.target_weight;
+
+  document
+    .getElementById('goalRemaining')
+    .innerText =
+      remain.toFixed(1) + 'kg';
 }

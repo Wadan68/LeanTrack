@@ -282,3 +282,22 @@ function calculateWHtR(waist) {
     .innerText =
       whtr.toFixed(2);
 }
+
+let weightChart = null;
+
+async function loadWeightTrend() {
+
+  const {
+    data: { user }
+  } =
+  await supabaseClient.auth.getUser();
+
+  const { data, error } =
+    await supabaseClient
+      .from('weights')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('record_date', {
+        ascending:true
+      })
+      .

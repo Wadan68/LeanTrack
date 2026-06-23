@@ -288,19 +288,56 @@ let weightChart = null;
 
 async function loadWeightTrend() {
 
-  const {
-    data: { user }
-  } =
-  await supabaseClient.auth.getUser();
+const {
+data: { user }
+} =
+await supabaseClient.auth.getUser();
 
-  const { data, error } =
-    await supabaseClient
-      .from('weights')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('record_date', {
-        ascending:true
-      })
-      .
+const { data, error } =
+await supabaseClient
+.from('weights')
+.select('*')
+.eq('user_id', user.id)
+.order('record_date', {
+ascending: true
+})
+.limit(30);
 
-    
+if (error || !data) {
+console.error(error);
+return;
+}
+
+const labels =
+data.map(item => item.record_date);
+
+const weights =
+data.map(item => item.weight);
+
+const canvas =
+document.getElementById('weightChart');
+
+if (!canvas) return;
+
+const ctx =
+canvas.getContext('2d');
+
+if (weightChart) {
+weightChart.destroy();
+}
+
+weightChart = new Chart(ctx, {
+type: 'line',
+data: {
+labels: labels,
+datasets: [{
+label: '体重 (kg)',
+data: weights
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false
+}
+});
+}

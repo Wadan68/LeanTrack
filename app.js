@@ -49,10 +49,11 @@ async function loadDashboard(session) {
     .innerText =
       session.user.email;
 await loadProfile();
+await loadProfile();
 await loadLatestWeight();
-await loadWeightTrend();
 await loadLatestWaist();
 await loadWeightTrend();
+
 }
 
 supabaseClient.auth.onAuthStateChange(
@@ -124,7 +125,9 @@ const today =
 
   alert('体重已保存');
 
-  await loadLatestWeight();
+await loadLatestWeight();
+await loadWeightTrend();
+
 }
 
 async function loadLatestWeight() {
@@ -325,6 +328,28 @@ document
   .getElementById('whtr')
   .innerText =
     `${whtr.toFixed(2)} ${status}`;
+}
+async function getStartWeight() {
+
+const {
+data: { user }
+} =
+await supabaseClient.auth.getUser();
+
+const { data } =
+await supabaseClient
+.from('weights')
+.select('weight')
+.eq('user_id', user.id)
+.order('record_date', {
+ascending: true
+})
+.limit(1);
+
+if (!data || !data.length)
+return null;
+
+return data[0].weight;
 }
 
 let weightChart = null;

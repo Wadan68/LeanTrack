@@ -1,5 +1,4 @@
 async function login() {
-
   const email =
     document.getElementById('emailInput')
       .value
@@ -17,7 +16,10 @@ async function login() {
 
   const { error } =
     await supabaseClient.auth.signInWithOtp({
-      email
+      email,
+      options: {
+        emailRedirectTo: window.location.origin
+      }
     });
 
   if (error) {
@@ -30,14 +32,7 @@ async function login() {
     '登录链接已发送，请查看邮箱';
 }
 
-async function checkLogin() {
-
-  const {
-    data: { session }
-  } =
-  await supabaseClient.auth.getSession();
-
-  if (!session) return;
+async function loadDashboard(session) {
 
   document
     .getElementById('loginPage')
@@ -53,4 +48,22 @@ async function checkLogin() {
       session.user.email;
 }
 
-checkLogin();
+supabaseClient.auth.onAuthStateChange(
+  async (event, session) => {
+
+    if (session) {
+      await loadDashboard(session);
+    }
+  }
+);
+
+(async () => {
+  const {
+    data: { session }
+  } =
+  await supabaseClient.auth.getSession();
+
+  if (session) {
+    await loadDashboard(session);
+  }
+})();

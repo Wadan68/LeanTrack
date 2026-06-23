@@ -51,6 +51,7 @@ async function loadDashboard(session) {
 await loadProfile();
 await loadLatestWeight();
 await loadLatestWaist();
+await loadWeightTrend();
 }
 
 supabaseClient.auth.onAuthStateChange(
@@ -301,3 +302,5 @@ async function loadWeightTrend() {
         ascending:true
       })
       .
+
+    

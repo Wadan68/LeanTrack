@@ -48,7 +48,7 @@ async function loadDashboard(session) {
     .getElementById('userEmail')
     .innerText =
       session.user.email;
-
+await loadProfile();
 await loadLatestWeight();
 await loadLatestWaist();
 }
@@ -217,6 +217,7 @@ async function loadLatestWaist() {
       data[0].waist + 'cm';
 
   calculateBodyFat(data[0].waist);
+  calculateWHtR(data[0].waist);
 }
 
 function calculateBodyFat(waist) {
@@ -248,4 +249,36 @@ function calculateBodyFat(waist) {
     .getElementById('bodyFat')
     .innerText =
       bodyFat.toFixed(1) + '%';
+}
+
+let profile = null;
+
+async function loadProfile() {
+
+  const {
+    data: { user }
+  } =
+  await supabaseClient.auth.getUser();
+
+  const { data } =
+    await supabaseClient
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+
+  profile = data;
+}
+
+function calculateWHtR(waist) {
+
+  if (!profile) return;
+
+  const whtr =
+    waist / profile.height_cm;
+
+  document
+    .getElementById('whtr')
+    .innerText =
+      whtr.toFixed(2);
 }

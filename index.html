@@ -185,7 +185,10 @@ canvas{
 <button onclick="addWaist()">
   + 记录腰围
 </button>
- 
+
+<button onclick="toggleSettings()">
+  ⚙️ 设置
+</button>
 
   </div>
 
@@ -229,7 +232,35 @@ canvas{
  
 
   </div>
+<div
+  id="settingsPanel"
+  class="card hidden"
+  style="margin-top:20px">
 
+  <h3>个人资料</h3>
+
+  <input
+    id="heightInput"
+    type="number"
+    placeholder="身高(cm)">
+
+  <input
+    id="birthYearInput"
+    type="number"
+    placeholder="出生年份">
+
+  <input
+    id="targetWeightInput"
+    type="number"
+    placeholder="目标体重(kg)">
+
+  <button onclick="saveProfile()">
+    保存资料
+  </button>
+
+</div>
+  
+  
   <div class="chart-card">
 
  

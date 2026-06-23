@@ -141,13 +141,6 @@ button{
 
 <div id="dashboard" class="dashboard hidden">
   
-<div class="stat-card" style="margin-top:20px">
-  <div style="margin-bottom:15px;font-weight:bold">
-    最近30天体重趋势
-  </div>
-
-  <canvas id="weightChart"></canvas>
-</div>
   
   <h1>LeanTrack</h1>
 
@@ -198,14 +191,20 @@ button{
   <div class="stat-value" id="whtr">
     --
   </div>
-</div>
+
       <div class="stat-value" id="bodyFat">
         --
       </div>
     </div>
 
   </div>
+<div class="stat-card" style="margin-top:20px">
+  <div style="margin-bottom:15px;font-weight:bold">
+    最近30天体重趋势
+  </div>
 
+  <canvas id="weightChart"></canvas>
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

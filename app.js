@@ -148,11 +148,12 @@ async function loadLatestWeight() {
     return;
 
 document
-  .getElementById('currentWeight')
-  .innerText =
-    data[0].weight + 'kg';
+.getElementById('currentWeight')
+.innerText =
+data[0].weight + 'kg';
 
-updateGoalProgress();
+await updateGoalProgress();
+
 }
 
 async function addWaist() {
@@ -433,48 +434,51 @@ async function saveProfile() {
   await loadProfile();
 }
 
-function updateGoalProgress() {
+async function updateGoalProgress() {
 
-  if (!profile) return;
+if (!profile) return;
 
-  const current =
-    parseFloat(
-      document
-        .getElementById('currentWeight')
-        .innerText
-    );
+const current =
+parseFloat(
+document
+.getElementById('currentWeight')
+.innerText
+);
 
-  if (!current) return;
+if (!current) return;
 
-  const target =
-    profile.target_weight;
+const start =
+await getStartWeight();
 
-  const start =
-    profile.start_weight || current;
+if (!start) return;
 
-  const remain =
-    current - target;
+const target =
+profile.target_weight;
 
-  document
-    .getElementById('goalRemaining')
-    .innerText =
-      remain.toFixed(1) + 'kg';
+const remain =
+current - target;
 
-  const totalToLose =
-    start - target;
+document
+.getElementById('goalRemaining')
+.innerText =
+remain.toFixed(1) + 'kg';
 
-  if (totalToLose > 0) {
+const totalToLose =
+start - target;
 
-    const progress =
-      ((start - current)
-      / totalToLose) * 100;
+if (totalToLose <= 0)
+return;
 
-    document
-      .getElementById('goalProgress')
-      .innerText =
-      Math.max(
-        0,
-        Math.min(100, progress)
-      ).toFixed(0) + '%';
-  }
+const progress =
+((start - current)
+/ totalToLose) * 100;
+
+document
+.getElementById('goalProgress')
+.innerText =
+Math.max(
+0,
+Math.min(100, progress)
+).toFixed(0) + '%';
 }
+

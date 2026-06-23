@@ -95,8 +95,14 @@ async function addWeight() {
   } =
   await supabaseClient.auth.getUser();
 
-  const today =
-    new Date()
+  const dateInput =
+  prompt(
+    '记录日期(YYYY-MM-DD)\n留空=今天'
+  );
+
+const today =
+  dateInput?.trim()
+  || new Date()
       .toISOString()
       .split('T')[0];
 
@@ -169,8 +175,14 @@ async function addWaist() {
   } =
   await supabaseClient.auth.getUser();
 
-  const today =
-    new Date()
+  const dateInput =
+  prompt(
+    '记录日期(YYYY-MM-DD)\n留空=今天'
+  );
+
+const today =
+  dateInput?.trim()
+  || new Date()
       .toISOString()
       .split('T')[0];
 
@@ -296,10 +308,22 @@ function calculateWHtR(waist) {
   const whtr =
     waist / profile.height_cm;
 
-  document
-    .getElementById('whtr')
-    .innerText =
-      whtr.toFixed(2);
+  let status = '';
+
+if (whtr < 0.5) {
+  status = '🟢 理想';
+}
+else if (whtr < 0.55) {
+  status = '🟡 偏高';
+}
+else {
+  status = '🔴 需减脂';
+}
+
+document
+  .getElementById('whtr')
+  .innerText =
+    `${whtr.toFixed(2)} ${status}`;
 }
 
 let weightChart = null;
@@ -415,17 +439,42 @@ function updateGoalProgress() {
 
   const current =
     parseFloat(
-      document.getElementById('currentWeight')
-      .innerText
+      document
+        .getElementById('currentWeight')
+        .innerText
     );
 
   if (!current) return;
 
+  const target =
+    profile.target_weight;
+
+  const start =
+    profile.start_weight || current;
+
   const remain =
-    current - profile.target_weight;
+    current - target;
 
   document
     .getElementById('goalRemaining')
     .innerText =
       remain.toFixed(1) + 'kg';
+
+  const totalToLose =
+    start - target;
+
+  if (totalToLose > 0) {
+
+    const progress =
+      ((start - current)
+      / totalToLose) * 100;
+
+    document
+      .getElementById('goalProgress')
+      .innerText =
+      Math.max(
+        0,
+        Math.min(100, progress)
+      ).toFixed(0) + '%';
+  }
 }

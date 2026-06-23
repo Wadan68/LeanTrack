@@ -138,6 +138,9 @@ button{
 </div>
 
 <!-- 首页 -->
+
+<div id="dashboard" class="dashboard hidden">
+  
 <div class="stat-card" style="margin-top:20px">
   <div style="margin-bottom:15px;font-weight:bold">
     最近30天体重趋势
@@ -145,8 +148,7 @@ button{
 
   <canvas id="weightChart"></canvas>
 </div>
-<div id="dashboard" class="dashboard hidden">
-
+  
   <h1>LeanTrack</h1>
 
   <p id="userEmail"></p>
@@ -184,9 +186,14 @@ button{
       </div>
     </div>
 
-    <div class="stat-card">
-      <div>体脂率</div>
-      <div class="stat-card">
+   <div class="stat-card">
+  <div>体脂率</div>
+  <div class="stat-value" id="bodyFat">
+    --
+  </div>
+</div>
+
+<div class="stat-card">
   <div>腰高比</div>
   <div class="stat-value" id="whtr">
     --

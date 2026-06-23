@@ -34,13 +34,15 @@ async function login() {
 
 async function loadDashboard(session) {
 
-  document
-    .getElementById('loginPage')
-    .classList.add('hidden');
+  const loginPage =
+    document.getElementById('loginPage');
 
-  document
-    .getElementById('dashboard')
-    .classList.remove('hidden');
+  const dashboard =
+    document.getElementById('dashboard');
+
+  loginPage.style.display = 'none';
+
+  dashboard.style.display = 'block';
 
   document
     .getElementById('userEmail')

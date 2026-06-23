@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -8,9 +9,8 @@
 
 <link rel="manifest" href="manifest.json">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
 <style>
+
 *{
   margin:0;
   padding:0;
@@ -70,7 +70,7 @@ input{
 
 button{
   width:100%;
-  margin-top:16px;
+  margin-top:12px;
   padding:14px;
   border:none;
   border-radius:10px;
@@ -83,11 +83,23 @@ button{
   padding:20px;
 }
 
+.dashboard h1{
+  margin-bottom:8px;
+}
+
+#userEmail{
+  color:#aaa;
+  margin-bottom:20px;
+}
+
+.action-buttons{
+  margin-bottom:20px;
+}
+
 .stats{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
-  margin-top:20px;
 }
 
 .stat-card{
@@ -101,12 +113,30 @@ button{
   font-weight:bold;
   margin-top:8px;
 }
+
+.chart-card{
+  margin-top:20px;
+  background:rgba(255,255,255,.06);
+  border-radius:14px;
+  padding:16px;
+}
+
+.chart-title{
+  margin-bottom:15px;
+  font-weight:bold;
+}
+
+canvas{
+  max-height:300px;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<!-- 登录 -->
+<!-- 登录页 -->
 
 <div id="loginPage" class="login-page">
 
@@ -117,69 +147,75 @@ button{
 
   <div class="card">
 
-    <div>邮箱登录</div>
+```
+<div>邮箱登录</div>
 
-    <input
-      id="emailInput"
-      type="email"
-      placeholder="请输入邮箱">
+<input
+  id="emailInput"
+  type="email"
+  placeholder="请输入邮箱">
 
-    <button onclick="login()">
-      发送登录链接
-    </button>
+<button onclick="login()">
+  发送登录链接
+</button>
 
-    <div
-      id="loginMsg"
-      style="margin-top:12px;color:#aaa;">
-    </div>
+<div
+  id="loginMsg"
+  style="margin-top:12px;color:#aaa;">
+</div>
+```
 
   </div>
 
 </div>
 
-<!-- 首页 -->
+<!-- Dashboard -->
 
 <div id="dashboard" class="dashboard hidden">
-  
-  
+
   <h1>LeanTrack</h1>
 
   <p id="userEmail"></p>
-<div style="margin-top:20px">
 
-  <button onclick="addWeight()">
-    + 记录体重
-  </button>
-  
+  <div class="action-buttons">
+
+```
+<button onclick="addWeight()">
+  + 记录体重
+</button>
+
 <button onclick="addWaist()">
   + 记录腰围
 </button>
-  
-</div>
+```
+
+  </div>
+
   <div class="stats">
 
-    <div class="stat-card">
-      <div>今日净热量</div>
-      <div class="stat-value" id="netCalories">
-        --
-      </div>
-    </div>
+```
+<div class="stat-card">
+  <div>今日净热量</div>
+  <div class="stat-value" id="netCalories">
+    --
+  </div>
+</div>
 
-    <div class="stat-card">
-      <div>当前体重</div>
-      <div class="stat-value" id="currentWeight">
-        --
-      </div>
-    </div>
+<div class="stat-card">
+  <div>当前体重</div>
+  <div class="stat-value" id="currentWeight">
+    --
+  </div>
+</div>
 
-    <div class="stat-card">
-      <div>腰围</div>
-      <div class="stat-value" id="currentWaist">
-        --
-      </div>
-    </div>
+<div class="stat-card">
+  <div>腰围</div>
+  <div class="stat-value" id="currentWaist">
+    --
+  </div>
+</div>
 
-   <div class="stat-card">
+<div class="stat-card">
   <div>体脂率</div>
   <div class="stat-value" id="bodyFat">
     --
@@ -191,25 +227,31 @@ button{
   <div class="stat-value" id="whtr">
     --
   </div>
-
-      <div class="stat-value" id="bodyFat">
-        --
-      </div>
-    </div>
-
-  </div>
-<div class="stat-card" style="margin-top:20px">
-  <div style="margin-bottom:15px;font-weight:bold">
-    最近30天体重趋势
-  </div>
-
-  <canvas id="weightChart"></canvas>
 </div>
+```
+
+  </div>
+
+  <div class="chart-card">
+
+```
+<div class="chart-title">
+  最近30天体重趋势
+</div>
+
+<canvas id="weightChart"></canvas>
+```
+
+  </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
 <script src="supabase.js"></script>
+
 <script src="app.js"></script>
 
 </body>

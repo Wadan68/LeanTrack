@@ -50,6 +50,7 @@ async function loadDashboard(session) {
       session.user.email;
 await loadProfile();
 await loadLatestWeight();
+await loadWeightTrend();
 await loadLatestWaist();
 await loadWeightTrend();
 }
